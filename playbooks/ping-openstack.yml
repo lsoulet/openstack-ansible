@@ -1,0 +1,15 @@
+---
+- name: Vérifier l'accès à OpenStack
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Lister les réseaux du projet
+      openstack.cloud.networks_info:
+        cloud: openstack
+      register: result
+
+    - name: Afficher le nom des réseaux
+      ansible.builtin.debug:
+        msg: "{{ result.networks | map(attribute='name') | list }}"
